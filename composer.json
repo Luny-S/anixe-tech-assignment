@@ -1,0 +1,12 @@
+{
+    "name": "lunys-/anixe",
+    "description": "Assignment task #1",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Aleksander Sil",
+            "email": "aleksandersil95@gmail.com"
+        }
+    ],
+    "require": {}
+}
