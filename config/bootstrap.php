@@ -1,10 +1,21 @@
 <?php
 
+/**
+ * @url https://github.com/odan/slim4-skeleton/blob/master/config/bootstrap.php
+ */
+
 require __DIR__ . '/../vendor/autoload.php';
 
-use Slim\Factory\AppFactory;
+use DI\ContainerBuilder;
+use Slim\App;
 
-$app = AppFactory::create();
+$containerBuilder = new ContainerBuilder();
+
+$containerBuilder->addDefinitions(__DIR__ . '/container.php');
+
+$container = $containerBuilder->build();
+
+$app = $container->get(App::class);
 
 // Register routes
 (require __DIR__ . '/routes.php')($app);

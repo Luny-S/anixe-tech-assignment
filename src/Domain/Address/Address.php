@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Address\Data;
+namespace App\Domain\Address;
 
 final class Address
 {

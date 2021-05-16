@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Address\Repository;
+namespace App\Domain\Address;
 
 final class AddressRepository
 {

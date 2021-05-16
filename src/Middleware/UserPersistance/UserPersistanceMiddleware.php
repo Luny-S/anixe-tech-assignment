@@ -19,17 +19,24 @@ final class UserPersistanceMiddleware
 		RequestHandler $handler): ResponseInterface
 	{
 		/**
-		 * Check if user token is present in request
+		 * Check if a user token is present in the incoming request
 		 */
 		$cookies = $request->getCookieParams();
 		$userCookie = $cookies[self::USER_COOKIE_NAME] ?? null;
 		
 		/**
-		 * If no user cookie is present then prepare some UID
+		 * If no user token is present then prepare UID which will mimic the
+		 * unique user logging in
+		 *
+		 * The user token is a string of 8 pseudo-random bytes (converted to
+		 * string with hex values) as a pseudo-authorization mechanism.
+		 *
+		 * As for a real mechanism I would use Authorization header
+		 * with token (e.g. Json Web Token using firebase/php-jwt lib)
 		 */
 		if (empty($userCookie)) {
 			$newUserCookieFlag = true;
-			$userCookie = openssl_random_pseudo_bytes(8);
+			$userCookie = bin2hex(openssl_random_pseudo_bytes(8));
 			$cookies[self::USER_COOKIE_NAME] = $userCookie;
 			$modifiedRequest = $request->withCookieParams($cookies);
 		}
