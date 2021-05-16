@@ -53,4 +53,9 @@ final class AddressService
 	{
 		return $this->repository->getUserAddresses();
 	}
+	
+	public function deleteAddress(int $addressId): void
+	{
+		$this->repository->deleteAddressById($addressId);
+	}
 }

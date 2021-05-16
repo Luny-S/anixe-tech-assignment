@@ -8,13 +8,17 @@ use Psr\Http\Message\ServerRequestInterface;
 
 final class AddressDeleteAction extends AddressAction
 {
-	public function __invoke(ServerRequestInterface $request,
-		ResponseInterface $response): ResponseInterface
+	public function __invoke(
+		ServerRequestInterface $request,
+		ResponseInterface $response,
+		array $arguments = []
+	): ResponseInterface
 	{
-//		$data = $request->getParsedBody();
+		$requestedAddressId = (int)$arguments['address_id'];
 		
-		return $this->responder
-			->withJson($response, ['test' => 'delete'])
-			->withStatus(StatusCodeInterface::STATUS_CREATED);
+		$this->addressService->deleteAddress($requestedAddressId);
+		
+		return $this->responder->createResponse()->withStatus
+		(StatusCodeInterface::STATUS_OK);
 	}
 }

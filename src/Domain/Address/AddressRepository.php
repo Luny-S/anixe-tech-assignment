@@ -67,6 +67,15 @@ final class AddressRepository
 		return self::rowToObject($row);
 	}
 	
+	public function deleteAddressById(int $addressId): void
+	{
+		$this->queryFactory->newDelete(self::TABLE_NAME)
+			->andWhere([
+				'user_id' => $this->getCurrentUserId(),
+				'id' => $addressId
+			])->execute();
+	}
+	
 	private static function dataToRow(string $userId, AddressData $data): array
 	{
 		$row = [
