@@ -45,4 +45,12 @@ final class AddressService
 	{
 		return $this->repository->getAddressById($addressId);
 	}
+	
+	/**
+	 * @return Address[]
+	 */
+	public function getAddresses(): array
+	{
+		return $this->repository->getUserAddresses();
+	}
 }

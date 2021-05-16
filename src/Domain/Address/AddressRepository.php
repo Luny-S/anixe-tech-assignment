@@ -33,16 +33,34 @@ final class AddressRepository
 			->execute()->lastInsertId();
 	}
 	
+	/**
+	 * @return Address[]
+	 */
+	public function getUserAddresses(): array
+	{
+		$query = $this->queryFactory->newSelect(self::TABLE_NAME);
+		$query->select(['id', 'user_id', 'city', 'postcode', 'street_name',
+			'street_number', 'country_iso', 'additional_notes']);
+		$query->andWhere(['user_id' => $this->getCurrentUserId()]);
+		
+		$rows = $query->execute()->fetchAll('assoc');
+		
+		return array_map([self::class, 'rowToObject'], $rows);
+	}
+	
 	public function getAddressById(int $addressId): Address
 	{
 		$query = $this->queryFactory->newSelect(self::TABLE_NAME);
 		$query->select(['id', 'user_id', 'city', 'postcode', 'street_name',
 			'street_number', 'country_iso', 'additional_notes']);
 		
-		$query->andWhere(['id' => $addressId]);
+		$query->andWhere([
+			'id' => $addressId,
+			'user_id' => $this->getCurrentUserId()
+		]);
 		$row = $query->execute()->fetch('assoc');
 		
-		if(!$row) {
+		if (!$row) {
 			throw new DomainException("Address not found");
 		}
 		
