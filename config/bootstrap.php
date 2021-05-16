@@ -21,6 +21,6 @@ $app = $container->get(App::class);
 (require __DIR__ . '/routes.php')($app);
 
 // Register middleware
-(require __DIR__ . '/middleware.php')($app);
+(require __DIR__ . '/middleware.php')($app, $container);
 
 return $app;

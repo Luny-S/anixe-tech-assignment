@@ -10,10 +10,15 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use Slim\App;
 use Slim\Factory\AppFactory;
 use Cake\Database\Connection;
+use App\Middleware\UserPersistance\UserPersistanceMiddleware;
 
 return [
 	'settings' => function () {
 		return require __DIR__ . '/settings.php';
+	},
+	
+	UserPersistanceMiddleware::USER_COOKIE_NAME => function () {
+		return null;
 	},
 	
 	App::class => function (ContainerInterface $container) {

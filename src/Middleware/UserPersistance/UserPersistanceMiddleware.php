@@ -2,6 +2,7 @@
 
 namespace App\Middleware\UserPersistance;
 
+use DI\Container;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
@@ -9,7 +10,14 @@ use Slim\Psr7\Response;
 
 final class UserPersistanceMiddleware
 {
-	private const USER_COOKIE_NAME = 'user';
+	public const USER_COOKIE_NAME = 'user';
+	
+	private Container $container;
+	
+	public function __construct(Container $container)
+	{
+		$this->container = $container;
+	}
 	
 	/**
 	 * @param Request $request
@@ -41,6 +49,10 @@ final class UserPersistanceMiddleware
 			$modifiedRequest = $request->withCookieParams($cookies);
 		}
 		
+		$this->container->set(
+			UserPersistanceMiddleware::USER_COOKIE_NAME,
+			$userCookie
+		);
 		$response = $handler->handle($modifiedRequest ?? $request);
 		
 		if ($newUserCookieFlag ?? false) {
