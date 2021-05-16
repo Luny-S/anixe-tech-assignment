@@ -9,12 +9,14 @@ use Psr\Http\Message\ServerRequestInterface;
 final class AddressGetAction extends AddressAction
 {
 	public function __invoke(ServerRequestInterface $request,
-		ResponseInterface $response): ResponseInterface
+		ResponseInterface $response,
+		array $arguments = []): ResponseInterface
 	{
-//		$data = $request->getParsedBody();
+		$requestedAddressId = (int) $arguments['address_id'];
+		$address = $this->addressService->getAddress($requestedAddressId);
 		
 		return $this->responder
-			->withJson($response, ['test' => 'get'])
+			->withJson($response, $address)
 			->withStatus(StatusCodeInterface::STATUS_CREATED);
 	}
 }

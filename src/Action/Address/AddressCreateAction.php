@@ -9,8 +9,11 @@ use Selective\Validation\Exception\ValidationException;
 
 final class AddressCreateAction extends AddressAction
 {
-	public function __invoke(ServerRequestInterface $request,
-		ResponseInterface $response): ResponseInterface
+	public function __invoke(
+		ServerRequestInterface $request,
+		ResponseInterface $response,
+		array $arguments = []
+	): ResponseInterface
 	{
 		$data = $request->getParsedBody();
 		

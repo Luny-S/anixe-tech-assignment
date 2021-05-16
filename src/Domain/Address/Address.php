@@ -2,7 +2,9 @@
 
 namespace App\Domain\Address;
 
-final class Address extends AddressData
+use JsonSerializable;
+
+final class Address extends AddressData implements JsonSerializable
 {
 	/**
 	 * @var int
@@ -18,6 +20,12 @@ final class Address extends AddressData
 	 * Address constructor.
 	 * @param int $id
 	 * @param string $userId
+	 * @param string $city
+	 * @param string $postcode
+	 * @param string $streetName
+	 * @param string $streetNumber
+	 * @param string $countryCode
+	 * @param string|null $additionalNotes
 	 */
 	public function __construct(
 		int $id,
@@ -41,5 +49,8 @@ final class Address extends AddressData
 			$additionalNotes);
 	}
 	
-	
+	public function jsonSerialize()
+	{
+		return get_object_vars($this);
+	}
 }

@@ -8,6 +8,9 @@ use Psr\Http\Message\ServerRequestInterface;
 
 interface ActionInterface
 {
-	public function __invoke(ServerRequestInterface $request,
-		ResponseInterface $response): ResponseInterface;
+	public function __invoke(
+		ServerRequestInterface $request,
+		ResponseInterface $response,
+		array $arguments = []
+	): ResponseInterface;
 }

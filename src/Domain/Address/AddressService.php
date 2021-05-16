@@ -41,5 +41,8 @@ final class AddressService
 		return $this->repository->insertAddress($addressData);
 	}
 	
-	
+	public function getAddress(int $addressId): Address
+	{
+		return $this->repository->getAddressById($addressId);
+	}
 }

@@ -9,7 +9,7 @@ use Psr\Http\Message\ServerRequestInterface;
 final class AddressGetListAction extends AddressAction
 {
 	public function __invoke(ServerRequestInterface $request,
-		ResponseInterface $response): ResponseInterface
+		ResponseInterface $response, array $arguments = []): ResponseInterface
 	{
 //		$data = $request->getParsedBody();
 		

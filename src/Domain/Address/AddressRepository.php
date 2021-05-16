@@ -5,9 +5,12 @@ namespace App\Domain\Address;
 use App\Factory\QueryFactory;
 use App\Middleware\UserPersistance\UserPersistanceMiddleware;
 use DI\Container;
+use DomainException;
 
 final class AddressRepository
 {
+	private const TABLE_NAME = "user_address";
+	
 	private QueryFactory $queryFactory;
 	
 	private Container $container;
@@ -26,11 +29,27 @@ final class AddressRepository
 			$address
 		);
 		
-		return (int) $this->queryFactory->newInsert('user_address', $row)
+		return (int)$this->queryFactory->newInsert(self::TABLE_NAME, $row)
 			->execute()->lastInsertId();
 	}
 	
-	private static function dataToRow(string $userId, AddressData $data)
+	public function getAddressById(int $addressId): Address
+	{
+		$query = $this->queryFactory->newSelect(self::TABLE_NAME);
+		$query->select(['id', 'user_id', 'city', 'postcode', 'street_name',
+			'street_number', 'country_iso', 'additional_notes']);
+		
+		$query->andWhere(['id' => $addressId]);
+		$row = $query->execute()->fetch('assoc');
+		
+		if(!$row) {
+			throw new DomainException("Address not found");
+		}
+		
+		return self::rowToObject($row);
+	}
+	
+	private static function dataToRow(string $userId, AddressData $data): array
 	{
 		$row = [
 			'user_id' => $userId,
@@ -45,6 +64,15 @@ final class AddressRepository
 		}
 		
 		return $row;
+	}
+	
+	private static function rowToObject(array $row): Address
+	{
+		return new Address($row['id'], $row['user_id'], $row['city'],
+			$row['postcode'], $row['street_name'],
+			$row['street_number'], $row['country_iso'],
+			$row['additional_notes'] ?? null
+		);
 	}
 	
 	private function getCurrentUserId(): string
