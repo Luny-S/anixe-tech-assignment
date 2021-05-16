@@ -7,9 +7,8 @@ use App\Action\Address\AddressGetListAction;
 use Slim\App;
 
 return function (App $app) {
-	$app->post('/address', AddressCreateAction::class);
-	$app->get('/address', AddressGetListAction::class);
-	$app->get('/address/{address_id}', AddressGetAction::class);
-	$app->delete('/address/{address_id}', AddressDeleteAction::class);
+    $app->post('/address', AddressCreateAction::class);
+    $app->get('/address', AddressGetListAction::class);
+    $app->get('/address/{address_id}', AddressGetAction::class);
+    $app->delete('/address/{address_id}', AddressDeleteAction::class);
 };
-

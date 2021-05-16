@@ -15,9 +15,9 @@ $settings['public'] = $settings['root'] . '/public';
 
 
 $settings['db'] = [
-	'driver' => PostgresDriver::class,
-	'host' => 'localhost',
-	'database' => 'task-db'
+    'driver' => PostgresDriver::class,
+    'host' => 'localhost',
+    'database' => 'task-db'
 ];
 
 return $settings;
